@@ -27,7 +27,9 @@ export default {
     },
     cursor() {
       return this.isResizing
-        ? this.layout == LAYOUT_VERTICAL ? 'col-resize' : 'row-resize'
+        ? this.layout == LAYOUT_VERTICAL
+          ? 'col-resize'
+          : 'row-resize'
         : '';
     },
     userSelect() {
@@ -42,6 +44,8 @@ export default {
         let { $el: container, layout } = self;
 
         let pane = resizer.previousElementSibling;
+        if (pane.className && pane.className.match('multipane-escape'))
+          pane = pane.previousElementSibling;
         let {
           offsetWidth: initialPaneWidth,
           offsetHeight: initialPaneHeight,
@@ -57,7 +61,7 @@ export default {
             let paneWidth = initialSize + offset;
 
             return (pane.style.width = usePercentage
-              ? paneWidth / containerWidth * 100 + '%'
+              ? (paneWidth / containerWidth) * 100 + '%'
               : paneWidth + 'px');
           }
 
@@ -66,7 +70,7 @@ export default {
             let paneHeight = initialSize + offset;
 
             return (pane.style.height = usePercentage
-              ? paneHeight / containerHeight * 100 + '%'
+              ? (paneHeight / containerHeight) * 100 + '%'
               : paneHeight + 'px');
           }
         };
